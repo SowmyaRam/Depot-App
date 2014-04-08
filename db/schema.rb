@@ -11,7 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140330073022) do
+ActiveRecord::Schema.define(version: 20140405235605) do
+
+  create_table "carts", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "columns_priv", id: false, force: true do |t|
     t.string    "Host",        limit: 60, default: "", null: false
@@ -148,6 +153,17 @@ ActiveRecord::Schema.define(version: 20140330073022) do
     t.integer   "clustered_index_size",     limit: 8,  null: false
     t.integer   "sum_of_other_index_sizes", limit: 8,  null: false
   end
+
+  create_table "line_items", force: true do |t|
+    t.integer  "product_id"
+    t.integer  "cart_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "quantity",   default: 1
+  end
+
+  add_index "line_items", ["cart_id"], name: "index_line_items_on_cart_id", using: :btree
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
 
   create_table "ndb_binlog_index", id: false, force: true do |t|
     t.integer "Position",       limit: 8, null: false
